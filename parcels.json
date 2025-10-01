@@ -45,11 +45,18 @@
       { "name": "Gadget-Apple iPhone", "qty": 1, "weight": "0.37kg" }
     ],
     "history": [
-      { "status": "Log at Service Center", "timestamp": "2025-09-29 16:20", "location": "Johor Bahru, Malaysia" },
-      { "status": "Processing", "timestamp": "2025-09-19 20:40", "location": "DHL-JHR Hub, Johor Bahru" }
+      { "status": "Log at Service Center", "timestamp": "2025-09-29 16:20", "location": "Johor Bahru, Malaysia", "details": "documentation required"},
+      { "status": "Processing", "timestamp": "2025-09-19 20:40", "location": "DHL-JHR Hub, Johor Bahru", "details": "Package processed for CLexp coverage"},
+      { "status": "Documentation Received", "timestamp": "2025-10-01 08:20", "location": "DHL-JHR Hub, Johor Bahru", "details": "Package arrived at facility"},
+      { "status": "In Transit", "timestamp": "2025-10-01 11:20", "location": "DHL-JHR Hub, Johor Bahru", "details": "Package departed facility"},
+      { "status": "In Transit", "timestamp": "2025-10-01 14:15", "location": "Selangor Gateway", "details": "Package confirmed for destination sorting hub" },
+      { "status": "In Transit", "timestamp": "2025-10-01 15:15", "location": "Selangor Toll Hub", "details": "Out for delivery" }
     ],
     "service": "DHL Express MyParcel",
     "estDelivery": "2025-10-01",
-    "currentStatus": "Pending"
+    "currentStatus": "In Transit",
+    "insurance": "MYR 615",
+    "dimensions": "30x20x10 cm",
+    "paymentMethod": "DuitNow QR"
   }
 }
