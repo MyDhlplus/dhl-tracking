@@ -1,0 +1,55 @@
+{
+  "000111222": {
+    "sender": {
+      "name": "Oluwa Pman",
+      "address": "123 Jalan Tunku, Kuala Lumpur, Malaysia",
+      "phone": "+60123456789",
+      "email": "pman@hacking.com"
+    },
+    "receiver": {
+      "name": "John Smith",
+      "address": "456 Orchard Road, Singapore 238879",
+      "phone": "+6587654321",
+      "email": "your.client@tools.com"
+    },
+    "items": [
+      { "name": "iPhone 17 pro", "qty": 1, "weight": "0.5kg", "value": "MYR 10" },
+      { "name": "Gift Box", "qty": 2, "weight": "1.2kg", "value": "MYR 120" }
+    ],
+    "history": [
+      { "status": "Picked up", "timestamp": "2025-09-25 09:00", "location": "Kuala Lumpur, Malaysia", "details": "Package picked up from sender" },
+      { "status": "In transit", "timestamp": "2025-09-26 14:30", "location": "Kuala Lumpur Hub", "details": "Package processed at sorting facility" },
+      { "status": "Arrived at facility", "timestamp": "2025-09-27 10:15", "location": "Singapore Gateway", "details": "Package arrived at destination country" },
+      { "status": "Out for delivery", "timestamp": "2025-09-28 08:45", "location": "Singapore", "details": "Package is out for delivery" }
+    ],
+    "service": "DHL Express",
+    "estDelivery": "2025-09-29",
+    "currentStatus": "In Transit",
+    "weight": "1.7kg",
+    "dimensions": "30x20x10 cm",
+    "insurance": "MYR 200",
+    "paymentMethod": "DuitNow"
+  },
+  "7287654321098788": {
+    "sender": {
+      "name": "SHIRAZ APPLE STORE-iDevice",
+      "address": "Jalan Baru, 81200 Johor Bahru, Johor Darul Ta'zim, Malaysia",
+      "phone": "+601119873046"
+    },
+    "receiver": {
+      "name": "MUKHLIS BIN AHMAD",
+      "address": "Hostel Building 2, Multimedia University, Sepang, 63000, Selangor, Malaysia",
+      "phone": "+601153774376"
+    },
+    "items": [
+      { "name": "Gadget-Apple iPhone", "qty": 1, "weight": "0.37kg" }
+    ],
+    "history": [
+      { "status": "Log at Service Center", "timestamp": "2025-09-29 16:20", "location": "Johor Bahru, Malaysia" },
+      { "status": "Processing", "timestamp": "2025-09-19 20:40", "location": "DHL-JHR Hub, Johor Bahru" }
+    ],
+    "service": "DHL Express MyParcel",
+    "estDelivery": "2025-10-01",
+    "currentStatus": "Pending"
+  }
+}

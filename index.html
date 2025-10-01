@@ -1,0 +1,1164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DHL Parcel Tracking</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --dhl-red: #D40511;
+            --dhl-yellow: #FFCC00;
+            --dhl-dark: #333333;
+            --dhl-light: #F5F5F5;
+            --dhl-gray: #666666;
+            --dhl-white: #FFFFFF;
+            --dhl-bg-blue: #EAF0F6;
+            --dhl-text-dark: #404040;
+            --shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            --border-radius: 6px;
+        }
+
+        body {
+            background-color: var(--dhl-light);
+            color: var(--dhl-dark);
+            line-height: 1.5;
+            font-size: 0.9rem;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+
+        header {
+            background: linear-gradient(120deg, var(--dhl-yellow) 65%, var(--dhl-white) 100%);
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            height: 60px;
+        }
+
+        .logo {
+            height: 32px;
+            max-width: 100%;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+        }
+
+        .nav-menu li {
+            margin-left: 20px;
+        }
+
+        .nav-menu a {
+            text-decoration: none;
+            color: var(--dhl-dark);
+            font-weight: 500;
+            font-size: 0.85rem;
+            transition: color 0.3s;
+            cursor: pointer;
+        }
+
+        .nav-menu a:hover {
+            color: var(--dhl-red);
+        }
+
+        .hero {
+            background: url('https://iili.io/KG1vFC7.jpg') center/cover no-repeat;
+            padding: 60px 0;
+            text-align: left;
+            position: relative;
+        }
+
+        .hero h1 {
+            font-size: 1.5rem;
+            margin-bottom: 25px;
+            color: var(--dhl-white);
+            font-weight: 700;
+        }
+
+        .search-container {
+            max-width: 550px;
+            margin: 0;
+        }
+
+        .search-box {
+            display: flex;
+            flex-direction: column;
+            background: var(--dhl-white);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+        }
+
+        .search-input-row {
+            flex: 1;
+            display: flex;
+        }
+
+        .search-input-row input {
+            flex: 1;
+            border: none;
+            padding: 12px 15px;
+            font-size: 0.9rem;
+            outline: none;
+            height: 50px;
+        }
+
+        .search-button-row {
+            display: flex;
+        }
+
+        .search-button-row button {
+            background: var(--dhl-red);
+            color: var(--dhl-white);
+            border: none;
+            padding: 0 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s;
+            height: 50px;
+            flex: 1;
+        }
+
+        .search-button-row button:hover {
+            background: #b0040e;
+        }
+
+        .result-container {
+            margin-top: 20px;
+            background: var(--dhl-white);
+            border-radius: var(--border-radius);
+            padding: 15px;
+            box-shadow: var(--shadow);
+            display: none;
+        }
+
+        .result-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .tracking-code {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--dhl-red);
+        }
+
+        .status-badge {
+            background: #e8f4e8;
+            color: #2e7d32;
+            padding: 4px 8px;
+            border-radius: 16px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .result-details {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin-bottom: 15px;
+        }
+
+        .detail-item {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .detail-label {
+            font-size: 0.8rem;
+            color: var(--dhl-gray);
+            margin-bottom: 3px;
+        }
+
+        .detail-value {
+            font-weight: 600;
+            font-size: 0.85rem;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 8px;
+        }
+
+        .btn {
+            padding: 8px 16px;
+            border-radius: 4px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: none;
+            font-size: 0.85rem;
+            flex: 1;
+            text-align: center;
+        }
+
+        .btn-primary {
+            background: var(--dhl-red);
+            color: var(--dhl-white);
+        }
+
+        .btn-primary:hover {
+            background: #b0040e;
+        }
+
+        .btn-secondary {
+            background: var(--dhl-light);
+            color: var(--dhl-dark);
+        }
+
+        .btn-secondary:hover {
+            background: #e0e0e0;
+        }
+
+        .services {
+            padding: 60px 0;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 40px;
+            font-size: 1.7rem;
+            color: var(--dhl-dark);
+            font-weight: 700;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+        }
+
+        .service-card {
+            background: var(--dhl-white);
+            border-radius: var(--border-radius);
+            padding: 25px;
+            text-align: center;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s;
+        }
+
+        .service-card:hover {
+            transform: translateY(-8px);
+        }
+
+        .service-icon {
+            font-size: 2.2rem;
+            color: var(--dhl-red);
+            margin-bottom: 15px;
+        }
+
+        .service-card h3 {
+            margin-bottom: 12px;
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        .service-card p {
+            color: var(--dhl-gray);
+            margin-bottom: 15px;
+            font-size: 0.85rem;
+        }
+
+        .dashboard-container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        .dashboard-sidebar {
+            width: 240px;
+            background: var(--dhl-bg-blue);
+            box-shadow: var(--shadow);
+            padding: 15px 0;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+            z-index: 90;
+        }
+
+        .dashboard-content {
+            flex: 1;
+            margin-left: 240px;
+            padding: 30px;
+            background: var(--dhl-bg-blue);
+            background-image: url('https://iili.io/KG1vnvj.png');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .dashboard-title {
+            font-size: 1.3rem;
+            color: var(--dhl-dark);
+            font-weight: 700;
+        }
+
+        .dashboard-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .dashboard-buttons .btn {
+            flex: 1;
+            min-width: 140px;
+        }
+
+        .parcel-info {
+            background: var(--dhl-bg-blue);
+            border-radius: var(--border-radius);
+            padding: 25px;
+            box-shadow: var(--shadow);
+            margin-bottom: 25px;
+            border: 1px solid #d0d0d0;
+        }
+
+        .info-section {
+            margin-bottom: 25px;
+        }
+
+        .info-section h3 {
+            margin-bottom: 12px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #ddd;
+            color: var(--dhl-red);
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+
+        .info-item {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .info-label {
+            font-size: 0.8rem;
+            color: var(--dhl-gray);
+            margin-bottom: 3px;
+        }
+
+        .info-value {
+            font-weight: 600;
+            font-size: 0.85rem;
+        }
+
+        .items-list {
+            list-style: none;
+        }
+
+        .items-list li {
+            padding: 8px 0;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.85rem;
+        }
+
+        .sidebar-menu {
+            list-style: none;
+        }
+
+        .sidebar-menu li {
+            margin-bottom: 4px;
+        }
+
+        .sidebar-menu a {
+            display: flex;
+            align-items: center;
+            padding: 10px 15px;
+            text-decoration: none;
+            color: var(--dhl-text-dark);
+            transition: all 0.3s;
+            cursor: pointer;
+            font-size: 0.85rem;
+        }
+
+        .sidebar-menu a:hover {
+            background: rgba(255, 255, 255, 0.5);
+            color: var(--dhl-red);
+        }
+
+        .sidebar-menu a.active {
+            background: rgba(255, 255, 255, 0.5);
+            color: var(--dhl-red);
+            border-left: 3px solid var(--dhl-red);
+        }
+
+        .sidebar-menu i {
+            margin-right: 8px;
+            width: 18px;
+            text-align: center;
+        }
+
+        .submenu {
+            list-style: none;
+            padding-left: 35px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+
+        .submenu.show {
+            max-height: 500px;
+        }
+
+        .submenu li a {
+            padding: 6px 15px;
+            font-size: 0.8rem;
+        }
+
+        .menu-toggle {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            cursor: pointer;
+        }
+
+        .status-timeline {
+            margin-top: 25px;
+            background: var(--dhl-bg-blue);
+            border-radius: var(--border-radius);
+            padding: 15px;
+            box-shadow: var(--shadow);
+        }
+
+        .timeline {
+            position: relative;
+            margin: 15px 0;
+            padding-left: 25px;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 6px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: var(--dhl-red);
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 15px;
+            padding: 12px;
+            background: var(--dhl-white);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -20px;
+            top: 16px;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: var(--dhl-red);
+        }
+
+        .timeline-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .timeline-status {
+            font-weight: 600;
+            color: var(--dhl-red);
+            margin-bottom: 4px;
+            font-size: 0.9rem;
+        }
+
+        .timeline-date {
+            font-size: 0.8rem;
+            color: var(--dhl-gray);
+            margin-bottom: 4px;
+        }
+
+        .timeline-location {
+            font-size: 0.8rem;
+        }
+
+        .timeline-details {
+            font-size: 0.75rem;
+            color: var(--dhl-gray);
+            margin-top: 4px;
+        }
+
+        .loading-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.9);
+            z-index: 9999;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        .loading-spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid var(--dhl-red);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin-bottom: 12px;
+        }
+
+        .loading-text {
+            font-size: 1rem;
+            color: var(--dhl-dark);
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .highlight {
+            background: var(--dhl-yellow);
+            padding: 50px 0;
+            text-align: center;
+        }
+
+        .highlight h2 {
+            font-size: 1.7rem;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+
+        .highlight p {
+            font-size: 1rem;
+            max-width: 650px;
+            margin: 0 auto 25px;
+        }
+
+        footer {
+            background: var(--dhl-bg-blue);
+            color: var(--dhl-text-dark);
+            padding: 30px 0 15px;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 25px;
+            margin-bottom: 25px;
+        }
+
+        .footer-column h3 {
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 8px;
+        }
+
+        .footer-links a {
+            color: var(--dhl-text-dark);
+            text-decoration: none;
+            transition: color 0.3s;
+            cursor: pointer;
+            font-size: 0.85rem;
+        }
+
+        .footer-links a:hover {
+            color: var(--dhl-red);
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 15px;
+            border-top: 1px solid #d0d0d0;
+            color: var(--dhl-gray);
+            font-size: 0.8rem;
+        }
+
+        @media print {
+            header, .dashboard-sidebar, .dashboard-header button, footer, .highlight {
+                display: none !important;
+            }
+            
+            .dashboard-container {
+                display: block !important;
+            }
+            
+            .dashboard-content {
+                margin-left: 0 !important;
+                padding: 15px !important;
+                background: white !important;
+                background-image: none !important;
+            }
+            
+            .parcel-info {
+                box-shadow: none !important;
+                border: 1px solid #ddd !important;
+                background: white !important;
+            }
+            
+            .status-timeline {
+                background: white !important;
+                box-shadow: none !important;
+                border: 1px solid #ddd !important;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-menu {
+                display: none;
+            }
+
+            .hero h1 {
+                font-size: 1.3rem;
+            }
+
+            .result-details {
+                grid-template-columns: 1fr;
+            }
+
+            .services-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr;
+            }
+
+            .dashboard-sidebar {
+                width: 100%;
+                position: relative;
+                height: auto;
+            }
+
+            .dashboard-content {
+                margin-left: 0;
+            }
+
+            .dashboard-container {
+                flex-direction: column;
+            }
+
+            .logo {
+                height: 22px;
+                max-width: 60%;
+            }
+
+            .dashboard-buttons {
+                flex-direction: column;
+                width: 100%;
+            }
+
+            .dashboard-buttons .btn {
+                min-width: 100%;
+            }
+        }
+
+        @media (min-width: 769px) {
+            .logo {
+                height: 40px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-spinner"></div>
+        <div class="loading-text" id="loadingText">Loading...</div>
+    </div>
+
+    <header>
+        <div class="container header-container">
+            <img src="https://iili.io/KG1kpYG.png" alt="DHL Logo" class="logo">
+            <ul class="nav-menu">
+                <li><a onclick="goHome()">Express</a></li>
+                <li><a onclick="goHome()">Parcel & eCommerce</a></li>
+                <li><a onclick="goHome()">Logistics</a></li>
+                <li><a onclick="goHome()">Mail</a></li>
+                <li><a onclick="goHome()">Press</a></li>
+                <li><a onclick="goHome()">About</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="container">
+            <h1>Track Your Shipment</h1>
+            <div class="search-container">
+                <form class="search-box" id="trackingForm">
+                    <div class="search-input-row">
+                        <input type="text" id="trackingInput" placeholder="Enter tracking number" required>
+                    </div>
+                    <div class="search-button-row">
+                        <button type="submit">Track</button>
+                    </div>
+                </form>
+                <div id="result" class="result-container">
+                    <div class="result-header">
+                        <div class="tracking-code">Tracking #: <span id="resultCode">ABC123</span></div>
+                        <div class="status-badge" id="statusBadge">In Transit</div>
+                    </div>
+                    <div class="result-details">
+                        <div class="detail-item">
+                            <span class="detail-label">Last Update</span>
+                            <span class="detail-value" id="lastUpdate">2025-09-27 10:15</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Current Status</span>
+                            <span class="detail-value" id="currentStatus">Arrived at facility</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Estimated Delivery</span>
+                            <span class="detail-value" id="estDelivery">2025-09-29</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Service</span>
+                            <span class="detail-value" id="serviceType">Express Worldwide</span>
+                        </div>
+                    </div>
+                    <div class="action-buttons">
+                        <button class="btn btn-primary" onclick="showDashboard()">View Full Details</button>
+                        <button class="btn btn-secondary" onclick="printDetails()">Print</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="services">
+        <div class="container">
+            <h2 class="section-title">Shipment</h2>
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-shipping-fast"></i>
+                    </div>
+                    <h3>Ship Now</h3>
+                    <p>Find the right shipping service for your needs</p>
+                    <button class="btn btn-secondary" onclick="goHome()">Learn More</button>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-calculator"></i>
+                    </div>
+                    <h3>Get a Quote</h3>
+                    <p>Estimate shipping costs for your package</p>
+                    <button class="btn btn-secondary" onclick="goHome()">Get Quote</button>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-building"></i>
+                    </div>
+                    <h3>Business Account</h3>
+                    <p>Learn about discounts and benefits for businesses</p>
+                    <button class="btn btn-secondary" onclick="goHome()">Sign Up</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="dashboard-container" id="dashboard" style="display: none;">
+        <div class="dashboard-sidebar">
+            <ul class="sidebar-menu">
+                <li><a onclick="goHomeWithLoading()" class="active"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+                <li>
+                    <div class="menu-toggle" onclick="toggleSubmenu('tracking-help')">
+                        <span><i class="fas fa-search"></i> Tracking Help</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <ul class="submenu" id="tracking-help">
+                        <li><a onclick="goHomeWithLoading()"><i class="fas fa-check-circle"></i> All Successful Delivery</a></li>
+                        <li><a onclick="goHomeWithLoading()"><i class="fas fa-clock"></i> All Pending Delivery</a></li>
+                        <li><a onclick="goHomeWithLoading()"><i class="fas fa-times-circle"></i> All Failed Delivery</a></li>
+                        <li><a onclick="goHomeWithLoading()"><i class="fas fa-sms"></i> DHL SMS Tracking</a></li>
+                    </ul>
+                </li>
+                <li><a onclick="goHomeWithLoading()"><i class="fas fa-plus-circle"></i> MyDHL+</a></li>
+                <li><a onclick="goHomeWithLoading()"><i class="fas fa-box"></i> Track New Item</a></li>
+                <li><a onclick="goHomeWithLoading()"><i class="fas fa-file-alt"></i> File a Claim</a></li>
+                <li><a onclick="goHomeWithLoading()"><i class="fas fa-shield-alt"></i> Contact Insurance</a></li>
+                <li><a onclick="goHomeWithLoading()"><i class="fas fa-comment-alt"></i> Feedback</a></li>
+                <li><a onclick="goHomeWithLoading()"><i class="fas fa-headset"></i> Support Center</a></li>
+            </ul>
+        </div>
+        <div class="dashboard-content">
+            <div class="dashboard-header">
+                <h2 class="dashboard-title">Parcel Information</h2>
+                <div class="dashboard-buttons">
+                    <button class="btn btn-primary" onclick="printParcelDetails()">Print Details</button>
+                    <button class="btn btn-secondary" onclick="goHomeWithLoading()">Back to Tracking</button>
+                </div>
+            </div>
+            <div class="parcel-info" id="parcelDetails"></div>
+        </div>
+    </section>
+
+    <section class="highlight">
+        <div class="container">
+            <h2>Latest Tariff Developments</h2>
+            <p>Helping you navigate global trade changes with up-to-date information and solutions.</p>
+            <a href="https://www.dhl.com/global-en/microsites-2-0/core/us-tariffs.html" target="_blank">
+                <button class="btn btn-primary" onclick="goHome()">Explore Our Solutions</button>
+            </a>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>Shipping</h3>
+                    <ul class="footer-links">
+                        <li><a onclick="goHome()">Ship Now</a></li>
+                        <li><a onclick="goHome()">Get a Quote</a></li>
+                        <li><a onclick="goHome()">Schedule a Pickup</a></li>
+                        <li><a onclick="goHome()">Find a Location</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Tracking</h3>
+                    <ul class="footer-links">
+                        <li><a onclick="goHome()">Track Your Shipment</a></li>
+                        <li><a onclick="goHome()">Tracking Help</a></li>
+                        <li><a onclick="goHome()">DHL SMS Tracking</a></li>
+                        <li><a onclick="goHome()">MyDHL+</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Customer Service</h3>
+                    <ul class="footer-links">
+                        <li><a onclick="goHome()">Contact Us</a></li>
+                        <li><a onclick="goHome()">Support Center</a></li>
+                        <li><a onclick="goHome()">File a Claim</a></li>
+                        <li><a onclick="goHome()">Feedback</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>About DHL</h3>
+                    <ul class="footer-links">
+                        <li><a onclick="goHome()">Company Info</a></li>
+                        <li><a onclick="goHome()">Careers</a></li>
+                        <li><a onclick="goHome()">Press</a></li>
+                        <li><a onclick="goHome()">Investor Relations</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                © 2025 DHL International GmbH. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        let parcels = {};
+
+        const form = document.getElementById('trackingForm');
+        const input = document.getElementById('trackingInput');
+        const result = document.getElementById('result');
+        const dashboard = document.getElementById('dashboard');
+        const parcelDetails = document.getElementById('parcelDetails');
+        const loadingOverlay = document.getElementById('loadingOverlay');
+        const loadingText = document.getElementById('loadingText');
+
+        let inactivityTimer;
+
+        function resetInactivityTimer() {
+            clearTimeout(inactivityTimer);
+            inactivityTimer = setTimeout(goHome, 10 * 60 * 1000);
+        }
+
+        document.addEventListener('mousemove', resetInactivityTimer);
+        document.addEventListener('keypress', resetInactivityTimer);
+        document.addEventListener('click', resetInactivityTimer);
+
+        function showLoading(message = "Loading...") {
+            loadingText.textContent = message;
+            loadingOverlay.style.display = 'flex';
+        }
+
+        function hideLoading() {
+            loadingOverlay.style.display = 'none';
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            fetch('parcels.json')
+                .then(response => response.json())
+                .then(data => {
+                    parcels = data;
+                    input.focus();
+                    resetInactivityTimer();
+                })
+                .catch(error => {
+                    console.error('Error loading parcel data:', error);
+                    alert('Error loading tracking data. Please refresh the page.');
+                });
+        });
+
+        form.addEventListener('submit', e => {
+            e.preventDefault();
+            const code = input.value.trim().toUpperCase();
+            
+            showLoading("Processing tracking information...");
+            
+            setTimeout(() => {
+                if (parcels[code]) {
+                    const p = parcels[code];
+                    const last = p.history[p.history.length - 1];
+                    
+                    document.getElementById('resultCode').textContent = code;
+                    document.getElementById('lastUpdate').textContent = last.timestamp;
+                    document.getElementById('currentStatus').textContent = last.status;
+                    document.getElementById('estDelivery').textContent = p.estDelivery;
+                    document.getElementById('serviceType').textContent = p.service;
+                    
+                    const statusBadge = document.getElementById('statusBadge');
+                    statusBadge.textContent = p.currentStatus;
+                    if (p.currentStatus === "Delivered") {
+                        statusBadge.style.background = "#e8f4e8";
+                        statusBadge.style.color = "#2e7d32";
+                    } else if (p.currentStatus === "In Transit") {
+                        statusBadge.style.background = "#e3f2fd";
+                        statusBadge.style.color = "#1565c0";
+                    } else if (p.currentStatus === "Pending") {
+                        statusBadge.style.background = "#fff3e0";
+                        statusBadge.style.color = "#ef6c00";
+                    }
+                    
+                    result.style.display = 'block';
+                } else {
+                    result.style.display = 'block';
+                    document.getElementById('resultCode').textContent = code;
+                    document.getElementById('lastUpdate').textContent = "N/A";
+                    document.getElementById('currentStatus').textContent = "Not Found";
+                    document.getElementById('estDelivery').textContent = "N/A";
+                    document.getElementById('serviceType').textContent = "N/A";
+                    
+                    const statusBadge = document.getElementById('statusBadge');
+                    statusBadge.textContent = "Invalid Code";
+                    statusBadge.style.background = "#ffebee";
+                    statusBadge.style.color = "#c62828";
+                }
+                
+                hideLoading();
+                resetInactivityTimer();
+            }, 3000);
+        });
+
+        function showDashboard() {
+            const code = document.getElementById('resultCode').textContent;
+            const p = parcels[code];
+            
+            if (!p) {
+                alert("Invalid tracking code. Please try again.");
+                return;
+            }
+            
+            showLoading("Loading parcel details...");
+            
+            setTimeout(() => {
+                document.querySelector('.hero').style.display = 'none';
+                document.querySelector('.services').style.display = 'none';
+                document.querySelector('.highlight').style.display = 'none';
+                document.querySelector('footer').style.display = 'none';
+                dashboard.style.display = 'flex';
+                
+                let html = `
+                    <div class="info-section">
+                        <h3>Shipment Details</h3>
+                        <div class="info-grid">
+                            <div class="info-item">
+                                <span class="info-label">Tracking Number</span>
+                                <span class="info-value">${code}</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">Service</span>
+                                <span class="info-value">${p.service}</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">Estimated Delivery</span>
+                                <span class="info-value">${p.estDelivery}</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">Current Status</span>
+                                <span class="info-value">${p.currentStatus}</span>
+                            </div>
+                            ${p.weight ? `<div class="info-item">
+                                <span class="info-label">Weight</span>
+                                <span class="info-value">${p.weight}</span>
+                            </div>` : ''}
+                            ${p.dimensions ? `<div class="info-item">
+                                <span class="info-label">Dimensions</span>
+                                <span class="info-value">${p.dimensions}</span>
+                            </div>` : ''}
+                            ${p.insurance ? `<div class="info-item">
+                                <span class="info-label">Insurance</span>
+                                <span class="info-value">${p.insurance}</span>
+                            </div>` : ''}
+                            ${p.paymentMethod ? `<div class="info-item">
+                                <span class="info-label">Payment Method</span>
+                                <span class="info-value">${p.paymentMethod}</span>
+                            </div>` : ''}
+                        </div>
+                    </div>
+                    
+                    <div class="info-section">
+                        <h3>Sender Information</h3>
+                        <div class="info-grid">
+                            <div class="info-item">
+                                <span class="info-label">Name</span>
+                                <span class="info-value">${p.sender.name}</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">Address</span>
+                                <span class="info-value">${p.sender.address}</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">Phone</span>
+                                <span class="info-value">${p.sender.phone}</span>
+                            </div>
+                            ${p.sender.email ? `<div class="info-item">
+                                <span class="info-label">Email</span>
+                                <span class="info-value">${p.sender.email}</span>
+                            </div>` : ''}
+                        </div>
+                    </div>
+                    
+                    <div class="info-section">
+                        <h3>Receiver Information</h3>
+                        <div class="info-grid">
+                            <div class="info-item">
+                                <span class="info-label">Name</span>
+                                <span class="info-value">${p.receiver.name}</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">Address</span>
+                                <span class="info-value">${p.receiver.address}</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">Phone</span>
+                                <span class="info-value">${p.receiver.phone}</span>
+                            </div>
+                            ${p.receiver.email ? `<div class="info-item">
+                                <span class="info-label">Email</span>
+                                <span class="info-value">${p.receiver.email}</span>
+                            </div>` : ''}
+                        </div>
+                    </div>
+                    
+                    <div class="info-section">
+                        <h3>Items</h3>
+                        <ul class="items-list">
+                            ${p.items.map(item => `
+                                <li>
+                                    <span>${item.qty} × ${item.name}</span>
+                                    <span>${item.weight}${item.value ? ` | ${item.value}` : ''}</span>
+                                </li>
+                            `).join('')}
+                        </ul>
+                    </div>
+                    
+                    <div class="info-section">
+                        <h3>Status History</h3>
+                        <div class="status-timeline">
+                            <div class="timeline">
+                                ${p.history.map(entry => `
+                                    <div class="timeline-item">
+                                        <div class="timeline-status">${entry.status}</div>
+                                        <div class="timeline-date">${entry.timestamp}</div>
+                                        <div class="timeline-location">${entry.location}</div>
+                                        ${entry.details ? `<div class="timeline-details">${entry.details}</div>` : ''}
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
+                    </div>
+                `;
+                
+                parcelDetails.innerHTML = html;
+                hideLoading();
+                resetInactivityTimer();
+            }, 5000);
+        }
+
+        function goHomeWithLoading() {
+            showLoading("Returning to home page...");
+            setTimeout(() => {
+                goHome();
+                hideLoading();
+            }, 5000);
+        }
+
+        function toggleSubmenu(id) {
+            const submenu = document.getElementById(id);
+            submenu.classList.toggle('show');
+            resetInactivityTimer();
+        }
+
+        function goHome() {
+            dashboard.style.display = 'none';
+            document.querySelector('.hero').style.display = 'block';
+            document.querySelector('.services').style.display = 'block';
+            document.querySelector('.highlight').style.display = 'block';
+            document.querySelector('footer').style.display = 'block';
+            result.style.display = 'none';
+            input.value = '';
+            resetInactivityTimer();
+        }
+
+        function printParcelDetails() {
+            window.print();
+        }
+
+        function printDetails() {
+            alert("Print functionality would be implemented here");
+            resetInactivityTimer();
+        }
+    </script>
+</body>
+</html>
