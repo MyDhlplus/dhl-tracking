@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DHL Parcel Tracking</title>
+    <title>MyGTS Logistics - Parcel Tracking</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
@@ -621,35 +621,6 @@
             font-size: 0.8rem;
         }
 
-        @media print {
-            header, .dashboard-sidebar, .dashboard-header button, footer, .highlight {
-                display: none !important;
-            }
-            
-            .dashboard-container {
-                display: block !important;
-            }
-            
-            .dashboard-content {
-                margin-left: 0 !important;
-                padding: 15px !important;
-                background: white !important;
-                background-image: none !important;
-            }
-            
-            .parcel-info {
-                box-shadow: none !important;
-                border: 1px solid #ddd !important;
-                background: white !important;
-            }
-            
-            .status-timeline {
-                background: white !important;
-                box-shadow: none !important;
-                border: 1px solid #ddd !important;
-            }
-        }
-
         @media (max-width: 768px) {
             .nav-menu {
                 display: none;
@@ -773,7 +744,7 @@
 
     <section class="services">
         <div class="container">
-            <h2 class="section-title">Shipment</h2>
+            <h2 class="section-title">Our Services</h2>
             <div class="services-grid">
                 <div class="service-card">
                     <div class="service-icon">
@@ -897,6 +868,7 @@
 
     <script>
         let parcels = {};
+        let currentShipmentData = null;
 
         const form = document.getElementById('trackingForm');
         const input = document.getElementById('trackingInput');
@@ -927,7 +899,7 @@
         }
 
         document.addEventListener('DOMContentLoaded', function() {
-            fetch('parcels.json')
+            fetch('./parcels.json')
                 .then(response => response.json())
                 .then(data => {
                     parcels = data;
